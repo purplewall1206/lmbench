@@ -21,3 +21,21 @@ It's a good idea to do several runs and compare the output like so
 	make rerun
 	make rerun
 	cd Results && make LIST=<your OS>/*
+
+## fix archlinux & manjaro compile rpc errors
+
+replace `#include <rpc/xxx>` to  `#include <tirpc/rpc/xxx>` to solve compile issue.
+
+*Besides*
+
+cd into `/usr/include/tirpc/rpc/`
+
+run commands to fix the compile errors
+
+`grep '#include <rpc' ./ -lr | xargs sed -i 's/#include <rpc/#include <tirpc\/rpc\//g' ` 
+
+`grep '#include <netconfig' ./ -lr | xargs sed -i 's/#include <netconfig.h>/#include \"..\/netconfig.h\"/g' ` 
+
+and run 
+
+`make results see LDFLAGS=-ltirpc`
